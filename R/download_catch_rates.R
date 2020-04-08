@@ -21,7 +21,6 @@
 #'   \item{...}{Potentially other column labels}
 #' }
 
-# Test Aurore
 
 #' @export
 download_catch_rates = function( survey="Eastern_Bering_Sea", add_zeros=TRUE, species_set=10, error_tol=1e-12, localdir=NULL, measurement_type="biomass" ){
@@ -38,10 +37,10 @@ download_catch_rates = function( survey="Eastern_Bering_Sea", add_zeros=TRUE, sp
     "Northern_Bering_Sea"="NBSBTS", "NBS"="NBSBTS", "West_coast_groundfish_bottom_trawl_survey"="WCGBTS",
     "West_coast_triennial"="WCT","WCT"="WCT", "WCGBTS"="WCGBTS", "West_coast_groundfish_hook_and_line"="WCGHL",
     "WCGHL"="WCGHL", "GOABTS"="GOABTS", "GOA"="GOABTS", "Gulf_of_Alaska"="GOABTS", "Aleutian_Islands"="AIBTS",
-    "AIBTS"="AIBTS", "Bering_Sea_slope"="BSslope", NA)
+    "AIBTS"="AIBTS", "Bering_Sea_slope"="BSslope", "Continuous_Plankton_Recorder"="CPR", NA)
   if( is.na(survey) ){
     message("'survey' input didn't match available options, please check help file")
-    message("Options include:  'Eastern_Bering_Sea', 'Northern_Bering_Sea', 'Gulf of Alaska', 'Aleutian_Islands', 'West_coast_groundfish_bottom_trawl_survey', 'West_coast_groundfish_hook_and_line','West_coast_triennial','Vancouver_Island','Haida_Gwaii','Queen_Charlotte_Sound','Hecate_Strait'")
+    message("Options include:  'Eastern_Bering_Sea', 'Northern_Bering_Sea', 'Gulf of Alaska', 'Aleutian_Islands', 'West_coast_groundfish_bottom_trawl_survey', 'West_coast_groundfish_hook_and_line','West_coast_triennial','Vancouver_Island','Haida_Gwaii','Queen_Charlotte_Sound','Hecate_Strait','Continuous_Plankton_Recorder'")
     return( invisible(NULL) )
   }else{
     message("Obtaining data for ",survey," survey...")
@@ -609,6 +608,18 @@ download_catch_rates = function( survey="Eastern_Bering_Sea", add_zeros=TRUE, sp
     # Exclude missing species
     Data = Data[ which(!Data[,'Sci']%in%c(""," ")), ]
   }
+  
+  # Continuous Plankton Recorder
+  if(survey =="CPR"){
+    # Loop through download pieces
+    Downloaded_data = NULL
+    if( is.null(localdir) | !file.exists(paste0(localdir,"/HS_download.RData")) ){
+      # Download and unzip
+      URLbase = "https://api.gbif.org/v1/dataset/"
+      url <- "https://www.gbif.org/occurrence/download?country=GB&country=NL&country=FR&country=DK&country=IE&country=NO&dataset_key=6d56415d-b007-4273-9c74-bcd6b2467434&has_coordinate=true&has_geospatial_issue=false&year=1997,2020"
+      }
+  }
+  
   
   ########################
   # Determine species_set
